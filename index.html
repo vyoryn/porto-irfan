@@ -6,6 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Irfan Kusumonegoro</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.15.1/devicon.min.css">
     <link rel="icon" type="image/jpeg" href="images/logo.jpg">
     <meta property="og:title" content="IRFAN KUSUMONEGORO | PORTOFOLIO">
     <meta property="og:description"
@@ -135,6 +136,7 @@
             padding: 20px;
             max-width: 800px;
             opacity: 0;
+            padding-bottom: 150px !important;
             transition: opacity 1s ease;
             /* Margin default (akan ditimpa di bawah) */
             margin: 0 auto;
@@ -152,15 +154,26 @@
 
             #sec-projects .content,
             #sec-contact .content {
-                margin-top: 60px;
-                /* Naik, pas di mata */
+                margin-top: 80px;
+                /* Jarak standar biar rapi */
             }
-        }
 
-        @media (min-width: 769px) {
+            /* 2. KHUSUS TAB ABOUT (Operasi Bedah Disini) */
+            /* Kita matikan mode Flexbox Center HANYA untuk About */
+            #sec-about.active {
+                display: block !important;
+                /* Paksa jadi mode Block biasa (bukan Flex) */
+                padding-top: 120px;
+                /* Dorong konten turun dari atap */
+                overflow-y: auto;
+                /* Pastikan bisa di-scroll */
+            }
+
             #sec-about .content {
-                margin-top: 280px;
-                /* Turun jauh, biar foto ga kejepit */
+                margin: 0 auto;
+                /* Tengahin kiri-kanan saja */
+                padding-bottom: 100px;
+                /* Jarak aman bawah */
             }
         }
 
@@ -673,6 +686,10 @@
         }
 
         @media (max-width: 768px) {
+            .desktop-spacer {
+                display: none !important;
+            }
+
             .mobile-only-spacer {
                 display: block !important;
                 height: 250px !important;
@@ -1003,18 +1020,404 @@
             visibility: hidden;
             pointer-events: none;
         }
+
+        .skill-grid {
+            display: grid;
+            /* Grid responsif: Otomatis ngatur jumlah kolom sesuai lebar layar */
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 20px;
+        }
+
+        .skill-box {
+            background: rgba(255, 255, 255, 0.05);
+            /* Latar transparan dikit */
+            border: 1px solid #333;
+            border-radius: 8px;
+            /* Sudut melengkung dikit kayak referensi */
+            padding: 20px 10px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: default;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        /* Ukuran Ikon */
+        .skill-box i {
+            font-size: 4rem;
+            /* Besar ikon */
+            display: block;
+            transition: transform 0.3s;
+            line-height: 1;
+            /* Biar ga makan tempat vertikal */
+        }
+
+        .substance-icon {
+            font-size: 4rem !important;
+            /* Samain gedenya */
+            font-weight: 900;
+            display: block;
+            line-height: 1;
+            font-family: sans-serif;
+        }
+
+        /* Teks Nama Software */
+        .skill-box span {
+            font-size: 0.7rem;
+            color: #aaa;
+            font-family: sans-serif;
+            /* Font bersih kayak referensi */
+            font-weight: bold;
+        }
+
+        /* EFEK HOVER: GLOWING & NAIK */
+        .skill-box:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: #fff;
+            transform: translateY(-5px);
+            /* Naik dikit */
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        .skill-box:hover i,
+        .skill-box:hover .substance-icon {
+            transform: scale(1.1);
+            /* Ikon membesar */
+        }
+
+        .skill-box:hover span {
+            color: white;
+        }
+
+        #canvas-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            /* Di belakang teks */
+            overflow: hidden;
+            background: #050505;
+            /* Hitam */
+        }
+
+        #splash-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #050505;
+            /* Hitam Pekat */
+            z-index: 2147483647;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 1s ease-out, visibility 1s;
+        }
+
+        /* KARTU DI TENGAH */
+        .splash-card {
+            position: relative;
+            z-index: 10;
+            /* Di atas canvas 3D */
+            background: rgba(20, 20, 20, 0.7);
+            /* Semi Transparan */
+            backdrop-filter: blur(10px);
+            /* Blur background 3D */
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 40px;
+            max-width: 450px;
+            text-align: center;
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.8);
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all 1s ease-out;
+        }
+
+        .show-card {
+            opacity: 1 !important;
+            transform: scale(1) !important;
+
+            /* PANGGIL ANIMASI GLITCH DISINI */
+            animation: glitch-intro 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+        }
+
+        .show-card::before,
+        .show-card::after {
+            content: "IRFAN KUSUMONEGORO";
+            /* Teks bayangan (Opsional) */
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            z-index: -1;
+        }
+
+        /* FOTO AVATAR */
+        .splash-avatar {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 20px auto;
+            border-radius: 50%;
+            border: 2px solid white;
+            padding: 3px;
+            overflow: hidden;
+        }
+
+        .splash-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+            filter: grayscale(100%);
+        }
+
+        /* TEKS */
+        .splash-name {
+            font-size: 1.5rem;
+            margin: 0;
+            color: white;
+            letter-spacing: 3px;
+            font-weight: 900;
+        }
+
+        .splash-role {
+            font-size: 0.8rem;
+            color: #ccff00;
+            margin: 10px 0 20px 0;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+
+        .splash-bio {
+            font-size: 0.9rem;
+            color: #aaa;
+            margin-bottom: 30px;
+            line-height: 1.5;
+        }
+
+        /* TOMBOL KECIL (Bukan Layar Penuh) */
+        .enter-btn-small {
+            background: transparent;
+            border: 1px solid #555;
+            color: white;
+            padding: 10px 25px;
+            font-family: 'Courier New', Courier, monospace;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            letter-spacing: 1px;
+        }
+
+        .enter-btn-small:hover {
+            background: #ccff00;
+            color: black;
+            border-color: #ccff00;
+            box-shadow: 0 0 20px #ccff00;
+        }
+
+        .hide-splash {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        #canvas-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .enter-btn {
+            background: rgba(0, 0, 0, 0.8);
+            /* Hitam transparan */
+            border: 1px solid #555;
+            color: #fff;
+            padding: 12px 20px;
+            font-family: 'Courier New', Courier, monospace;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: bold;
+            display: inline-block;
+        }
+
+        /* Gaya Tombol Utama (Enter) */
+        .main-btn:hover {
+            background: #ccff00;
+            color: black;
+            border-color: #ccff00;
+            box-shadow: 0 0 15px #ccff00;
+        }
+
+        /* Gaya Tombol Sekunder (CV) */
+        .sub-btn {
+            border-color: #ff00de;
+            color: #ff00de;
+        }
+
+        .sub-btn:hover {
+            background: #ff00de;
+            color: white;
+            box-shadow: 0 0 15px #ff00de;
+        }
+
+        @keyframes glitch-intro {
+            0% {
+                opacity: 0;
+                transform: translate(-10px, -10px) scale(0.9);
+                text-shadow: 2px 2px #ff00de, -2px -2px #ccff00;
+                /* Warna pecah */
+            }
+
+            20% {
+                transform: translate(10px, 10px) scale(0.95);
+                text-shadow: -2px 2px #ff00de, 2px -2px #ccff00;
+            }
+
+            40% {
+                transform: translate(-5px, -5px) scale(1);
+                opacity: 1;
+            }
+
+            60% {
+                transform: translate(5px, 5px);
+                text-shadow: 2px -2px #ff00de, -2px 2px #ccff00;
+            }
+
+            80% {
+                transform: translate(-2px, 2px);
+            }
+
+            100% {
+                transform: translate(0, 0) scale(1);
+                text-shadow: none;
+                /* Normal lagi */
+            }
+        }
+
+        /* Pasang di Kartu saat Muncul */
+        #main-card {
+            opacity: 0;
+            transform: scale(0.9);
+            /* Transisi biasa buat hover */
+            transition: box-shadow 0.3s, border-color 0.3s;
+
+            position: relative;
+            z-index: 10;
+            /* Background kartu CSS murni (biar ga polos banget) */
+            background: rgba(20, 20, 20, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 40px;
+            max-width: 450px;
+        }
+
+        /* Saat Mouse Gerak (dan opacity jadi 1) */
+        /* Kamu mungkin perlu menambahkan class lewat JS, 
+   TAPI cara paling gampang tanpa ubah JS: */
+        #main-card:not([style*="opacity: 0"]) {
+            animation: glitch-anim 0.3s infinite linear;
+            /* Glitch terus saat aktif */
+            /* ATAU */
+            animation: glitch-anim 0.5s ease-out 1;
+            /* Glitch sekali pas muncul */
+        }
+
+        .proof-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .proof-item {
+            border: 1px solid #555;
+            height: 120px;
+            cursor: pointer;
+            overflow: hidden;
+            position: relative;
+            transition: 0.3s;
+        }
+
+        .proof-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(100%);
+            transition: 0.3s;
+        }
+
+        .proof-item:hover img {
+            filter: grayscale(0%);
+            transform: scale(1.05);
+        }
+
+        .proof-label {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            text-align: center;
+            font-size: 0.65rem;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+        }
     </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
 </head>
 
 <body>
     <audio id="audio-start" src="images/start.mp3" preload="auto"></audio>
 
     <div id="splash-screen">
-        <div class="splash-content">
-            <h1 class="blink-text">PRESS START</h1>
-            <p style="font-size: 0.8rem; color: #888; margin-top: 10px;">[ INITIALIZING SYSTEM... ]</p>
 
-            <button onclick="enterSite()" class="start-trigger"></button>
+        <div id="canvas-container"></div>
+
+        <div onclick="enterSite()"
+            style="position:absolute; top:0; left:0; width:100%; height:100%; z-index:1; cursor:pointer;"></div>
+
+        <div class="splash-card" style="position:relative; z-index:10; pointer-events:none;">
+            <div class="splash-avatar">
+                <img src="images/irfan.jpg" alt="Irfan Avatar">
+            </div>
+
+            <h1 class="splash-name">IRFAN KUSUMONEGORO</h1>
+            <div class="splash-role">
+                ANIMATOR GENERALIST <span style="color:#ff00de;">//</span> CREATIVE ARTIST
+            </div>
+
+            <p class="splash-bio">
+                Built to adapt. Driven to learn. Focused on creating meaningful visuals.
+            </p>
+
+            <div class="btn-group" style="pointer-events:auto; margin-top:20px;">
+                <button onclick="enterSite()" class="enter-btn main-btn">
+                    [ ENTER PORTOFOLIO ]
+                </button>
+
+                <a href="images/cv-irfan.pdf" download class="enter-btn sub-btn">
+                    GET CV
+                </a>
+            </div>
+
+            <p style="font-size:0.6rem; color:#555; margin-top:20px;">OR CLICK ANYWHERE TO START</p>
         </div>
     </div>
 
@@ -1040,59 +1443,112 @@
                 </h2>
 
                 <p style="font-size: 1.2rem; line-height: 1.6; text-align: left;">
-                    Lebih dari sekadar gamer, saya adalah seorang <strong>pengamat visual</strong>.<br><br>
+                    Saya adalah seseorang yang gemar <strong>mengamati, memahami, dan membedah visual</strong> dalam
+                    berbagai bentuknya.<br><br>
 
-                    Lulusan D4 Animasi yang senang membedah <em>level design</em> dalam video game dan mengeksplorasi
-                    teknologi kreatif.<br><br>
+                    Dengan latar belakang <strong>D4 Animasi</strong>, saya terbiasa mengulik desain dari banyak sisi
+                    antara lain visual, workflow, hingga teknologi yang memperkuat proses berkarya.<br><br>
 
-                    Sebagai <strong>3D Generalis</strong>, saya menggabungkan kemampuan teknis dengan rasa ingin tahu
+                    Sebagai <strong>3D Generalist</strong>, saya menggabungkan kemampuan teknis dengan rasa ingin tahu
                     yang besar.
                     Perjalanan karier saya membawa saya berkarya untuk proyek Metaverse di <strong>Telkom Indonesia
                         (MetaNesia)</strong>,
                     hingga melatih AI untuk animasi di perusahaan Singapura, <strong>Gentle Guru Pte
                         Ltd</strong>.<br><br>
-                    Fokus saya saat ini: Content Creation, Membuat 3D, Video Editing, dan Motion Graphics untuk
-                    menciptakan konten yang efektif dan menarik Serta membangun dan melatih skill baru untuk saya
-                    pelajari<br><br>
+                    Fokus saya saat ini adalah Content Creation, Membuat 3D, Video Editing, dan Motion Graphics untuk
+                    menciptakan materi visual yang efektif dan menarik. Saya terus membangun dan melatih skill baru.
+                    Karena menurut saya, setiap software dan teknik baru adalah kesempatan untuk
+                    memperluas sudut pandang dan kemampuan saya sebagai kreator visual<br><br>
                 </p>
 
                 <p style="font-size: 0.8rem; line-height: 1.6; text-align: left;">
-                    *contohnya membuat web ini. saya mencoba coba sendiri*
+                    *contohnya membuat web ini; tidak hanya saya mencoba membangunnya sendiri sebagai ruang eksperimen,
+                    saya juga melakukan pengembangan kemampuan dari trial and error.*
                 </p>
 
-                <div style="margin-top: 30px; margin-bottom: 30px; border: 1px dashed white; padding: 15px;">
-                    <strong style="color: #ccff00;">[ INSTALLED SKILLS ]</strong><br><br>
-                    3D Animation &nbsp;//&nbsp; Motion Graphics &nbsp;//&nbsp; Video Editing &nbsp;//&nbsp; AI Prompting
-                    &nbsp;//&nbsp; OBS Streaming
-                </div>
+                <div style="margin-top: 40px; text-align: left;">
+                    <h3 style="border-bottom: 2px solid #ff00de; display:inline-block; margin-bottom: 20px;">SKILLS</h3>
 
-                <div style="text-align: left;">
-                    <p style="font-size: 0.9rem; color: #aaa; margin-bottom: 10px;">[ PROOF OF WORK ]</p>
+                    <p style="color:#888; font-size:0.8rem; margin-bottom:10px;">3D / GAME ENGINE</p>
 
-                    <div style="display: flex; gap: 15px;">
+                    <div class="skill-grid">
 
-                        <div onclick="openProject('proof-1')"
-                            style="cursor: pointer; border: 1px solid #555; width: 100px; height: 100px; overflow: hidden; position: relative;">
-                            <img src="images/metanesia.jpg"
-                                style="width: 100%; height: 100%; object-fit: cover; filter: grayscale(100%); transition: 0.3s;"
-                                onmouseover="this.style.filter='grayscale(0%)'"
-                                onmouseout="this.style.filter='grayscale(100%)'">
-                            <div
-                                style="position:absolute; bottom:0; background:rgba(0,0,0,0.7); color:white; font-size:0.6rem; width:100%; text-align:center;">
-                                TELKOM</div>
+                        <div class="skill-box" title="Blender">
+                            <i class="devicon-blender-original" style="color: #e67e22;"></i>
+                            <span>Blender</span>
                         </div>
 
-                        <div onclick="openProject('proof-2')"
-                            style="cursor: pointer; border: 1px solid #555; width: 100px; height: 100px; overflow: hidden; position: relative;">
-                            <img src="images/gentleguru-office.jpg"
-                                style="width: 100%; height: 100%; object-fit: cover; filter: grayscale(100%); transition: 0.3s;"
-                                onmouseover="this.style.filter='grayscale(0%)'"
-                                onmouseout="this.style.filter='grayscale(100%)'">
-                            <div
-                                style="position:absolute; bottom:0; background:rgba(0,0,0,0.7); color:white; font-size:0.6rem; width:100%; text-align:center;">
-                                GENTLE GURU</div>
+                        <div class="skill-box" title="Autodesk Maya">
+                            <i class="devicon-maya-plain" style="color: #0984e3;"></i>
+                            <span>Maya</span>
                         </div>
 
+                        <div class="skill-box" title="Unity">
+                            <i class="devicon-unity-original" style="color: white;"></i>
+                            <span>Unity</span>
+                        </div>
+
+                        <div class="skill-box" title="Unreal Engine">
+                            <i class="devicon-unrealengine-original" style="color: white;"></i>
+                            <span>Unreal</span>
+                        </div>
+
+                        <div class="skill-box" title="Substance Painter">
+                            <span class="substance-icon" style="color:#d63031;">S</span>
+                            <span>Substance</span>
+                        </div>
+
+                    </div>
+                    <p style="color:#888; font-size:0.8rem; margin: 30px 0 10px 0;">GRAPHIC DESIGN / VIDEO / MOTION</p>
+
+                    <div class="skill-grid">
+
+                        <div class="skill-box" title="Premiere Pro">
+                            <i class="devicon-premierepro-plain" style="color: #9980FF;"></i>
+                            <span>Premiere</span>
+                        </div>
+
+                        <div class="skill-box" title="After Effects">
+                            <i class="devicon-aftereffects-plain" style="color: #9980FF;"></i>
+                            <span>After FX</span>
+                        </div>
+
+                        <div class="skill-box" title="Photoshop">
+                            <i class="devicon-photoshop-plain" style="color: #0984e3;"></i>
+                            <span>Photoshop</span>
+                        </div>
+
+                        <div class="skill-box" title="Illustrator">
+                            <i class="devicon-illustrator-plain" style="color: #f39c12;"></i>
+                            <span>Illustrator</span>
+                        </div>
+
+                        <div class="skill-box" title="Figma">
+                            <i class="devicon-figma-plain" style="color: #00b894;"></i>
+                            <span>Figma</span>
+                        </div>
+
+                    </div>
+                    <div style="text-align: left; margin-top: 60px; border-top: 1px dashed #333; padding-top: 20px;">
+
+                        <h3 style="border-bottom: 2px solid #ff00de; display:inline-block; margin-bottom: 20px;">
+                            PROOF OF WORK
+                        </h3>
+
+                        <!-- ADD: wrapper grid -->
+                        <div class="proof-grid"> <!-- New wrapper -->
+
+                            <div onclick="openProject('proof-1')" class="proof-item">
+                                <img src="images/metanesia.jpg">
+                                <div class="proof-label">TELKOM</div>
+                            </div>
+
+                            <div onclick="openProject('proof-2')" class="proof-item">
+                                <img src="images/gentleguru-office.jpg">
+                                <div class="proof-label">GENTLE GURU</div>
+                            </div>
+
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1103,9 +1559,19 @@
             <button class="close-btn" onclick="tutup(event, this)">X</button>
 
             <div class="content">
-                <h2 style="border-bottom: 2px solid #ff00de; display:inline-block; margin-bottom: 30px;">SELECTED WORKS
+                <h2 style="border-bottom: 2px solid #ff00de; display:inline-block; margin-bottom: 30px;">SELECTED
+                    WORKS
                 </h2>
                 <div class="gallery-grid" style="margin-top: 10px;">
+                    <div class="gallery-item" onclick="openProject('cat-intern')">
+                        <img src="images/metanesia.jpg" alt="Internship">
+                        <div class="gallery-label">
+                            WORK EXPERIENCE<br>
+                            <span
+                                style="font-size: 0.5em; font-weight: normal; letter-spacing: 2px; color: #ccff00;">PT.
+                                TELKOM INDONESIA & Gentle Guru Pte Ltd</span>
+                        </div>
+                    </div>
                     <div class="gallery-item" onclick="openProject('cat-3d')">
                         <img src="images/viking.jpg" alt="3D General" loading="lazy">
                         <div class="gallery-label">3D GENERAL</div>
@@ -1134,7 +1600,8 @@
             <button class="close-btn" onclick="tutup(event, this)">X</button>
 
             <div class="content">
-                <h2 style="border-bottom: 2px solid #ff00de; display:inline-block; margin-bottom: 20px;">LET'S CONNECT
+                <h2 style="border-bottom: 2px solid #ff00de; display:inline-block; margin-bottom: 20px;">LET'S
+                    CONNECT
                 </h2>
 
                 <p style="font-size: 1.2rem; text-align: center;">
@@ -1146,7 +1613,8 @@
 
                     <a href="https://instagram.com/irufannov._" target="_blank" class="contact-link">INSTAGRAM</a>
 
-                    <a href="https://instagram.com/vyoryn_" target="_blank" class="contact-link">INSTAGRAM CONTENT</a>
+                    <a href="https://instagram.com/vyoryn_" target="_blank" class="contact-link">INSTAGRAM
+                        CONTENT</a>
 
                     <a href="https://youtube.com/@vyoryn617" target="_blank" class="contact-link">YOUTUBE</a>
 
@@ -1239,6 +1707,27 @@
                 }
             }
 
+            /* Terapkan saat pindah ke ABOUT via shortcut-nav */
+            function pindahKe(targetId) {
+                let semuaKotak = document.querySelectorAll('.section');
+                semuaKotak.forEach(kotak => {
+                    kotak.classList.remove('active');
+                });
+
+                let tujuan = document.getElementById(targetId);
+                if (tujuan) {
+                    tujuan.classList.add('active');
+                    updateNavigasi(targetId);
+
+                    // Jika masuk ABOUT → jalankan offset
+                    if (targetId === 'sec-about') {
+                        setTimeout(applyAboutOffset, 50);
+                    }
+                }
+
+                document.body.classList.add('body-fullscreen');
+            }
+
             // Fungsi Tutup Popup
             function closeProject(id) {
                 document.getElementById(id).style.display = 'none';
@@ -1311,6 +1800,138 @@
                 }, 1000);
             }
 
+            if (document.getElementById('canvas-container')) {
+                const scene = new THREE.Scene();
+                // Kabut dikurangi dikit biar ga terlalu gelap
+                scene.fog = new THREE.FogExp2(0x000000, 0.0015);
+
+                const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+                camera.position.z = 50;
+
+                const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+                renderer.setSize(window.innerWidth, window.innerHeight);
+                document.getElementById('canvas-container').appendChild(renderer.domElement);
+
+                // Kubus LEBIH BESAR dikit biar kelihatan
+                const geometry = new THREE.IcosahedronGeometry;
+                const material = new THREE.MeshBasicMaterial({
+                    color: 0x666666, // Abu lebih terang dikit
+                    wireframe: true,
+                    transparent: true,
+                    opacity: 0.6
+                });
+
+                const cubes = [];
+
+                // Bikin 300 Kubus
+                for (let i = 0; i < 300; i++) {
+                    const cube = new THREE.Mesh(geometry, material.clone()); // Clone biar bisa beda warna
+
+                    // POSISI AWAL (CHAOS): Sebar lebih lebar tapi dekat kamera
+                    cube.position.x = (Math.random() - 0.5) * 200;
+                    cube.position.y = (Math.random() - 0.5) * 150;
+                    cube.position.z = (Math.random() - 0.5) * 100;
+
+                    // Data untuk Animasi
+                    cube.userData = {
+                        // Posisi Chaos (Disimpan)
+                        chaosX: cube.position.x,
+                        chaosY: cube.position.y,
+                        chaosZ: cube.position.z,
+
+                        // Posisi Orbit (Nanti dihitung real-time)
+                        angle: Math.random() * Math.PI * 2, // Sudut acak
+                        speed: 0.002 + Math.random() * 0.005, // Kecepatan putar pelan
+
+                        // Jarak dari pusat (Bentuk Kotak)
+                        // Kita bikin variasi biar ga gepeng
+                        orbitRadiusX: 35 + Math.random() * 10,
+                        orbitRadiusY: 25 + Math.random() * 10
+                    };
+
+                    scene.add(cube);
+                    cubes.push(cube);
+                }
+
+                // STATUS & TIMER
+                let isAssembling = false;
+                let idleTimer;
+
+                // Deteksi Mouse (Lebih Sensitif)
+                document.addEventListener('mousemove', () => {
+                    isAssembling = true;
+                    document.querySelector('.splash-card').classList.add('show-card');
+
+                    // Reset Timer (Kalau diam 3 detik, balik chaos)
+                    clearTimeout(idleTimer);
+                    idleTimer = setTimeout(() => {
+                        isAssembling = false;
+                        // document.querySelector('.splash-card').classList.remove('show-card'); // Opsional: Card hilang kalau diam
+                    }, 250);
+                });
+
+                function animate() {
+                    requestAnimationFrame(animate);
+
+                    // Putar seluruh scene sangat pelan
+                    scene.rotation.y += 0.001;
+
+                    cubes.forEach(cube => {
+                        // Selalu putar diri sendiri
+                        cube.rotation.x += 0.01;
+                        cube.rotation.y += 0.01;
+
+                        let targetX, targetY, targetZ;
+
+                        if (isAssembling) {
+                            // --- MODE ORBIT (MENGELILINGI KARTU) ---
+
+                            // Update sudut orbit (Muter terus)
+                            cube.userData.angle += cube.userData.speed;
+
+                            // Rumus Matematika: Gerak melingkar tapi dipijat jadi Oval/Kotak
+                            // Cos/Sin biasa = Lingkaran. Kita kali radius beda X & Y = Oval.
+                            targetX = Math.cos(cube.userData.angle) * cube.userData.orbitRadiusX;
+                            targetY = Math.sin(cube.userData.angle) * cube.userData.orbitRadiusY;
+                            targetZ = Math.sin(cube.userData.angle * 2) * 10; // Variasi Z biar 3D
+
+                            // Warna: Ubah jadi Hijau Neon Pelan-pelan
+                            cube.material.color.lerp(new THREE.Color(0xccff00), 0.05);
+                            cube.material.opacity = 1; // Jelas
+
+                            // Gerak Menuju Orbit (DRAMATIS / LAMBAT)
+                            // Angka 0.02 ini yang bikin efek "tertarik berat"
+                            cube.position.x += (targetX - cube.position.x) * 0.03;
+                            cube.position.y += (targetY - cube.position.y) * 0.03;
+                            cube.position.z += (targetZ - cube.position.z) * 0.03;
+
+                        } else {
+                            // --- MODE CHAOS (BALIK ASAL) ---
+                            targetX = cube.userData.chaosX;
+                            targetY = cube.userData.chaosY;
+                            targetZ = cube.userData.chaosZ;
+
+                            // Warna: Balik Abu
+                            cube.material.color.lerp(new THREE.Color(0x666666), 0.05);
+                            cube.material.opacity = 0.5; // Agak transparan
+
+                            // Gerak Balik (Lebih lambat lagi biar santai)
+                            cube.position.x += (targetX - cube.position.x) * 0.01;
+                            cube.position.y += (targetY - cube.position.y) * 0.01;
+                            cube.position.z += (targetZ - cube.position.z) * 0.01;
+                        }
+                    });
+
+                    renderer.render(scene, camera);
+                }
+                animate();
+
+                window.addEventListener('resize', () => {
+                    camera.aspect = window.innerWidth / window.innerHeight;
+                    camera.updateProjectionMatrix();
+                    renderer.setSize(window.innerWidth, window.innerHeight);
+                });
+            }
         </script>
 
         <nav id="shortcut-menu" class="top-nav">
@@ -1336,13 +1957,15 @@
                 <div style="margin-bottom: 30px;">
                     <img src="images/gentleguru-office.jpg"
                         style="width:100%; border: 2px solid white; display: block;">
-                    <small style="color: #888; display: block; margin-top: 5px;">[ FIG 1: DOKUMENTASI KANTOR ]</small>
+                    <small style="color: #888; display: block; margin-top: 5px;">[ FIG 1: DOKUMENTASI KANTOR
+                        ]</small>
                 </div>
 
                 <div style="margin-bottom: 30px;">
                     <img src="images/gentleguru-office2.jpg"
                         style="width:100%; border: 2px solid white; display: block;">
-                    <small style="color: #888; display: block; margin-top: 5px;">[ FIG 1: DOKUMENTASI KANTOR2 ]</small>
+                    <small style="color: #888; display: block; margin-top: 5px;">[ FIG 1: DOKUMENTASI KANTOR2
+                        ]</small>
                 </div>
 
                 <div>
@@ -1353,6 +1976,31 @@
             </div>
         </div>
 
+        <div id="cat-intern" class="project-popup">
+            <div class="popup-close" onclick="closeProject('cat-intern')">X</div>
+            <div class="popup-content">
+                <h1 style="color: #ccff00; text-align: center;">WORK EXPERIENCE</h1>
+                <p style="text-align: center; color: #ccc; margin-bottom: 30px;">
+                    Pengalaman kerja profesional di lingkungan korporat dan industri kreatif.
+                </p>
+
+                <div style="margin-bottom: 40px;">
+                    <h2 style="border-bottom: 1px dashed #555; padding-bottom: 10px; margin-bottom: 15px;">
+                        PT. TELKOM INDONESIA (MetaNesia)
+                    </h2>
+                    <p style="font-size: 0.9rem; color: #aaa; margin-bottom: 15px;">
+                        <strong>Role:</strong> Intern 3D Animator<br>
+                        <strong>Periode:</strong> Nov 2022 - Apr 2023
+                    </p>
+                    <p style="margin-bottom: 20px;">
+                        Bertanggung jawab membuat aset 3D interaktif dan animasi karakter untuk platform Metaverse BUMN.
+                        Bekerja sama dengan tim developer untuk memastikan aset teroptimasi di dalam engine Unity.
+                    </p>
+                    <img src="images/metanesia.jpg" style="width:100%; border: 1px solid #333;">
+                </div>
+
+            </div>
+        </div>
         <div id="cat-3d" class="project-popup">
             <div class="popup-close" onclick="closeProject('cat-3d')">X</div>
             <div class="popup-content">
@@ -1436,7 +2084,8 @@
         <div class="popup-close" onclick="closeProject('cat-video')">X</div>
         <div class="popup-content">
             <h1 style="color: #ccff00; text-align: center;">VIDEO EDITING</h1>
-            <p style="text-align: center; color: #ccc; margin-bottom: 30px;">Editing Video For Content and Some Mograph.
+            <p style="text-align: center; color: #ccc; margin-bottom: 30px;">Editing Video For Content and Some
+                Mograph.
             </p>
 
             <div class="shorts-container">
