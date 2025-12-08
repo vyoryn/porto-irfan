@@ -1926,12 +1926,50 @@
                 }
                 animate();
 
+                if (/Mobi|Android/i.test(navigator.userAgent)) {
+                    const tiltX = gyroData.gamma || 0;
+                    const tiltY = gyroData.beta || 0;
+
+                    // Putar scene sedikit berdasarkan gyro
+                    scene.rotation.x = tiltY * 0.0008;
+                    scene.rotation.y += tiltX * 0.0005;
+                }
+
                 window.addEventListener('resize', () => {
                     camera.aspect = window.innerWidth / window.innerHeight;
                     camera.updateProjectionMatrix();
                     renderer.setSize(window.innerWidth, window.innerHeight);
                 });
             }
+
+            function requestGyroPermission() {
+                if (typeof DeviceOrientationEvent !== "undefined" &&
+                    typeof DeviceOrientationEvent.requestPermission === "function") {
+                    DeviceOrientationEvent.requestPermission().catch(() => {
+                        let button = document.createElement("button");
+                        button.innerHTML = "Enable Gyro";
+                        button.style.position = "absolute";
+                        button.style.top = "10px";
+                        button.style.left = "10px";
+                        button.style.zIndex = "9999";
+                        document.body.appendChild(button);
+
+                        button.addEventListener("click", () => {
+                            DeviceOrientationEvent.requestPermission().then(response => {
+                                if (response === "granted") button.remove();
+                            });
+                        });
+                    });
+                }
+            }
+            requestGyroPermission();
+            let gyroData = { alpha: 0, beta: 0, gamma: 0 };
+
+            window.addEventListener("deviceorientation", (event) => {
+                gyroData.alpha = event.alpha; // rotasi Z
+                gyroData.beta = event.beta;  // depan–belakang
+                gyroData.gamma = event.gamma; // kanan–kiri
+            });
         </script>
 
         <nav id="shortcut-menu" class="top-nav">
